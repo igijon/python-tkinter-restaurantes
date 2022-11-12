@@ -111,7 +111,8 @@ def gen_items(items_list, panel):
                             font=('Dosis', 19, 'bold'),
                             onvalue=1,
                             offvalue=0,
-                            variable=variable[cont])
+                            variable=variable[cont],
+                            command=lambda: revisar_check(variable, entrada, text))
         boton.grid(row=cont,
                    column=0,
                    sticky=W)  # Se colocan a la izquierda
@@ -234,3 +235,17 @@ def get_result(visor_calculadora):
     visor_calculadora.delete(0, END)
     visor_calculadora.insert(END, result)
     operador = ''
+
+
+def revisar_check(variable, entrada, text):
+    x = 0
+    for e in entrada:
+        if variable[x].get() == 1:
+            e.config(state=NORMAL)
+            if text[x].get() == '0':
+                e.delete(0, END)
+            e.focus()
+        else:
+            e.config(state=DISABLED)
+            text[x].set('0')
+        x += 1
