@@ -30,6 +30,8 @@ def init():
 
     gen_recibo(panel_recibo)
 
+    gen_calculadora(panel_calculadora)
+
     # Evitar que la ventana se cierre
     aplication.mainloop()
 
@@ -87,6 +89,7 @@ def new_panels(aplication: object) -> object:
     panel_botones = Frame(panel_derecha, bd=1, relief=FLAT, bg='burlywood')
     panel_botones.pack()
 
+
     return (panel_superior, panel_izquierdo, panel_coste, panel_comidas, panel_bebidas, panel_postres, panel_derecha, \
     panel_calculadora, panel_recibo, panel_botones)
 
@@ -141,13 +144,13 @@ def gen_precios(panel, concepto, row, column):
     text.grid(row=row, column=column+1, padx=41)
 
 def gen_buttons(panel):
-    buttons = ['total', 'recibo', 'guardar', 'resetear']
+    buttons = ['total', 'recibo', 'guardar', 'reset']
     column = 0
     for button in buttons:
         b = Button(panel,
                    text=button.title(),
                    font=('Dosis', 14, 'bold'),
-                   fg='white',
+                   fg='black',
                    bg='azure4',
                    bd=1,
                    width=5)
@@ -163,3 +166,33 @@ def gen_recibo(panel):
                         height=10)
     texto_recibo.grid(row=0,
                       column=0)
+
+def gen_calculadora(panel):
+    visor_calculadora = Entry(panel,
+                              font=('Dosis', 16, 'bold'),
+                              width=30,
+                              bd=1)
+    visor_calculadora.grid(row=0,
+                           column=0,
+                           columnspan=4)
+    botones_calculadora = ['7', '8', '9', '+', '4', '5', '6', '-', '1', '2', '3',
+                           'x', 'CE', 'Borrar', '0', '/']
+
+    row = 1
+    column = 0
+    for b in botones_calculadora:
+        n = Button(panel,
+                   text=b.title(),
+                   font=('Dosis', 16, 'bold'),
+                   fg='black',
+                   bg='azure4',
+                   bd=1,
+                   width=4)
+        n.grid(row=row,
+               column=column)
+        if column == 3:
+            row += 1
+            column = 0
+        else:
+            column += 1
+
