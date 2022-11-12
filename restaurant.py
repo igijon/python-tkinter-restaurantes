@@ -1,7 +1,10 @@
 from tkinter import *
 
+operador = ''
 
 def init():
+
+
 
     # crear aplicación
     aplication = new_application()
@@ -177,23 +180,57 @@ def gen_calculadora(panel):
                            column=0,
                            columnspan=4)
     botones_calculadora = ['7', '8', '9', '+', '4', '5', '6', '-', '1', '2', '3',
-                           'x', 'CE', 'Borrar', '0', '/']
+                           'x', '=', 'Borrar', '0', '/']
 
+    botones_guardados = []
     row = 1
     column = 0
     for b in botones_calculadora:
-        n = Button(panel,
-                   text=b.title(),
-                   font=('Dosis', 16, 'bold'),
-                   fg='black',
-                   bg='azure4',
-                   bd=1,
-                   width=5)
-        n.grid(row=row,
-               column=column)
+        botones_guardados.append(Button(panel,
+                                 text=b.title(),
+                                 font=('Dosis', 16, 'bold'),
+                                 fg='black',
+                                 bg='azure4',
+                                   bd=1,
+                                   width=5))
+
+        cont = len(botones_guardados)-1
+        botones_guardados[cont].grid(row=row,
+                                     column=column)
+        click_calculadora(cont, botones_calculadora, botones_guardados, visor_calculadora)
+
         if column == 3:
             row += 1
             column = 0
         else:
             column += 1
 
+
+def click_calculadora(num, botones_calculadora, botones_guardados, visor_calculadora):
+    text = botones_calculadora[num]
+    if not text == '=' and not text == 'Borrar':
+        botones_guardados[num].config(command=lambda: click_boton(text, visor_calculadora))
+    elif text == 'Borrar':
+        botones_guardados[num].config(command=lambda: borrar(visor_calculadora))
+    else:
+        botones_guardados[num].config(command=lambda: get_result(visor_calculadora))
+
+def click_boton(num, visor_calculadora):
+    global operador
+    operador = operador + num
+    visor_calculadora.delete(0, END)
+    visor_calculadora.insert(END, operador)
+
+
+def borrar(visor_calculadora):
+    global operador
+    visor_calculadora.delete(0, END)
+    operador = ''
+
+
+def get_result(visor_calculadora):
+    global operador
+    result = str(eval(visor_calculadora.get().title()))
+    visor_calculadora.delete(0, END)
+    visor_calculadora.insert(END, result)
+    operador = ''
