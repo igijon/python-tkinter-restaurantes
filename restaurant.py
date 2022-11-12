@@ -19,6 +19,13 @@ def init():
     gen_items(lista_bebidas, panel_bebidas)
     gen_items(lista_postres, panel_postres)
 
+    gen_precios(panel_coste, 'Comida', 0, 0)
+    gen_precios(panel_coste, 'Bebida', 1, 0)
+    gen_precios(panel_coste, 'Postre', 2, 0)
+    gen_precios(panel_coste, 'Subtotal', 0, 2)
+    gen_precios(panel_coste, 'Impuestos', 1, 2)
+    gen_precios(panel_coste, 'Total', 2, 2)
+
     # Evitar que la ventana se cierre
     aplication.mainloop()
 
@@ -51,7 +58,7 @@ def new_panels(aplication: object) -> object:
     panel_izquierdo.pack(side=LEFT)
 
     # panel coste
-    panel_coste = Frame(panel_izquierdo, bd=1, relief=FLAT)
+    panel_coste = Frame(panel_izquierdo, bd=1, relief=FLAT, bg='azure4', padx=50)
     panel_coste.pack(side=BOTTOM)
 
     # panel de menú
@@ -111,3 +118,20 @@ def gen_items(items_list, panel):
                            column=1)
         cont += 1
 
+
+def gen_precios(panel, concepto, row, column):
+    var_precio = StringVar()
+
+    label_precio = Label(panel,
+                         text='Precio '+concepto,
+                         font=('Dosis', 12, 'bold'),
+                         bg='azure4',
+                         fg='white')
+    label_precio.grid(row=row, column=column)
+    text = Entry(panel,
+                 font=('Dosis', 12, 'bold'),
+                 bd=1,
+                 width=10,
+                 state='readonly',
+                 textvariable=var_precio)
+    text.grid(row=row, column=column+1, padx=41)
