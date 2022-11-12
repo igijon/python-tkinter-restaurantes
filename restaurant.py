@@ -99,7 +99,8 @@ def gen_items(items_list, panel):
                    column=0,
                    sticky=W)  # Se colocan a la izquierda
         # Crear cuatros de entrada
-        text.append('')
+        text.append(StringVar())
+        text[cont].set('0')
         entrada.append(Entry(panel,
                              font=('Dosis', 18, 'bold'),
                              bd=1,
