@@ -83,11 +83,30 @@ def new_panels(aplication: object) -> object:
 def gen_items(items_list, panel):
     # Generar items comida
     variable = []
+    entrada=[]
+    text=[]
     cont = 0
     for comida in items_list:
+        # Crear checkbuttons
         variable.append(IntVar())  # Crea una variable entera propia de Tkinter
-        boton = Checkbutton(panel, text=comida.title(), font=('Dosis', 19, 'bold'),
-                            onvalue=1, offvalue=0, variable=variable[cont])
-        boton.grid(row=cont, column=1, sticky=W)  # Se colocan a la izquierda
+        boton = Checkbutton(panel,
+                            text=comida.title(),
+                            font=('Dosis', 19, 'bold'),
+                            onvalue=1,
+                            offvalue=0,
+                            variable=variable[cont])
+        boton.grid(row=cont,
+                   column=0,
+                   sticky=W)  # Se colocan a la izquierda
+        # Crear cuatros de entrada
+        text.append('')
+        entrada.append(Entry(panel,
+                             font=('Dosis', 18, 'bold'),
+                             bd=1,
+                             width=6,
+                             state=DISABLED,
+                             textvariable=text[cont]))
+        entrada[cont].grid(row=cont,
+                           column=1)
         cont += 1
 
