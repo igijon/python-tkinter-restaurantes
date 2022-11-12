@@ -39,7 +39,7 @@ def new_application():
     # Iniciar tkinter
     aplication = Tk()
     # tamaño de la ventana
-    aplication.geometry('1020x630+0+0')
+    aplication.geometry('1042x430+0+0')
 
     # evitar maximizar
     aplication.resizable(0, 0)  # no se puede modificar en ningún eje
@@ -56,7 +56,7 @@ def new_panels(aplication: object) -> object:
     panel_superior = Frame(aplication, bd=1, relief=FLAT)
     panel_superior.pack(side=TOP)
     etiqueta_titulo = Label(panel_superior, text='Sistema de Facturación', fg='azure4',
-                            font=('Dosis', 58), bg='burlywood', width=27)
+                            font=('Dosis', 58), bg='burlywood', width=30)
     etiqueta_titulo.grid(row=0, column=0)
 
     # panel izquierdo
@@ -153,7 +153,8 @@ def gen_buttons(panel):
                    fg='black',
                    bg='azure4',
                    bd=1,
-                   width=5)
+                   width=5,
+                   height=2)
         b.grid(row=0,
                column=column)
         column += 1
@@ -162,7 +163,7 @@ def gen_recibo(panel):
     texto_recibo = Text(panel,
                         font=('Dosis', 12, 'bold'),
                         bd=1,
-                        width=42,
+                        width=39,
                         height=10)
     texto_recibo.grid(row=0,
                       column=0)
@@ -170,7 +171,7 @@ def gen_recibo(panel):
 def gen_calculadora(panel):
     visor_calculadora = Entry(panel,
                               font=('Dosis', 16, 'bold'),
-                              width=30,
+                              width=32,
                               bd=1)
     visor_calculadora.grid(row=0,
                            column=0,
@@ -187,7 +188,7 @@ def gen_calculadora(panel):
                    fg='black',
                    bg='azure4',
                    bd=1,
-                   width=4)
+                   width=5)
         n.grid(row=row,
                column=column)
         if column == 3:
