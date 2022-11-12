@@ -26,6 +26,10 @@ def init():
     gen_precios(panel_coste, 'Impuestos', 1, 2)
     gen_precios(panel_coste, 'Total', 2, 2)
 
+    gen_buttons(panel_botones)
+
+    gen_recibo(panel_recibo)
+
     # Evitar que la ventana se cierre
     aplication.mainloop()
 
@@ -135,3 +139,27 @@ def gen_precios(panel, concepto, row, column):
                  state='readonly',
                  textvariable=var_precio)
     text.grid(row=row, column=column+1, padx=41)
+
+def gen_buttons(panel):
+    buttons = ['total', 'recibo', 'guardar', 'resetear']
+    column = 0
+    for button in buttons:
+        b = Button(panel,
+                   text=button.title(),
+                   font=('Dosis', 14, 'bold'),
+                   fg='white',
+                   bg='azure4',
+                   bd=1,
+                   width=5)
+        b.grid(row=0,
+               column=column)
+        column += 1
+
+def gen_recibo(panel):
+    texto_recibo = Text(panel,
+                        font=('Dosis', 12, 'bold'),
+                        bd=1,
+                        width=42,
+                        height=10)
+    texto_recibo.grid(row=0,
+                      column=0)
