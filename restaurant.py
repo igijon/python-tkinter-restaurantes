@@ -1,12 +1,18 @@
 from tkinter import *
+import random
+import datetime
 
 operador = ''
 precios_comida = [1.32, 1.65, 2.31, 3.22, 1.22, 1.99, 2.05, 2.65]
 precios_bebida = [0.25, 0.99, 1.21, 1.54, 1.08, 1.10, 2.00, 1.58]
 precios_postres = [1.54, 1.68, 1.32, 1.97, 2.55, 2.14, 1.94, 1.74]
+lista_comidas = []
+lista_bebidas = []
+lista_postres = []
 text_comidas = []
 text_bebidas = []
 text_postres = []
+texto_recibo = ''
 var_precio_comida = ''
 var_precio_bebidas = ''
 var_precio_postres = ''
@@ -16,6 +22,10 @@ var_precio_total = ''
 text = {}
 
 def init():
+    global lista_comidas
+    global lista_bebidas
+    global lista_postres
+
     # crear aplicación
     aplication = new_application()
 
@@ -200,6 +210,7 @@ def gen_buttons(panel):
 
 
 def gen_recibo(panel):
+    global texto_recibo
     texto_recibo = Text(panel,
                         font=('Dosis', 12, 'bold'),
                         bd=1,
@@ -292,6 +303,8 @@ def revisar_check(variable, entrada, text):
 def click_botones(num, botones_creados, botones_etiquetas):
     if botones_etiquetas[num] == 'total':
         botones_creados[num].config(command=lambda: total())
+    elif botones_etiquetas[num] == 'recibo':
+        botones_creados[num].config(command=lambda: recibo())
 
 
 def total_parcial(var, text, precios):
@@ -334,3 +347,40 @@ def total():
     var_precio_total.set(f'{round(precio_total, 2)} €')
     var_precio_subtotal.set(f'{round(sub_total, 2)} €')
     var_precio_impuestos.set(f'{round(impuestos, 2)} €')
+
+def recibo():
+    global texto_recibo
+
+    texto_recibo.delete(1.0, END)
+    num_recibo = f'N#-{random.randint(1000, 9999)}'
+    fecha = datetime.datetime.now()
+    fecha_recibo = f'{fecha.day}/{fecha.month}/{fecha.year}-{fecha.hour}:{fecha.minute}'
+    texto_recibo.insert(END, f'Datos:\t{num_recibo}\t\t{fecha_recibo}\n')
+    texto_recibo.insert(END, f'*' * 57+'\n')
+    texto_recibo.insert(END, 'Items\t\tCant.\tCoste Items\n')
+    texto_recibo.insert(END, f'-'*57+'\n')
+
+    add_recibo(text_comidas, lista_comidas, precios_comida)
+    add_recibo(text_bebidas, lista_bebidas, precios_bebida)
+    add_recibo(text_postres, lista_postres, precios_postres)
+
+    texto_recibo.insert(END, f'-' * 57 + '\n')
+    texto_recibo.insert(END, f'Precio de la comida: \t\t\t{var_precio_comida.get()}\n')
+    texto_recibo.insert(END, f'Precio de la bebida: \t\t\t{var_precio_bebidas.get()}\n')
+    texto_recibo.insert(END, f'Precio de la postre: \t\t\t{var_precio_postres.get()}\n')
+
+    texto_recibo.insert(END, f'-' * 57 + '\n')
+    texto_recibo.insert(END, f'Subtotal: \t\t\t{var_precio_subtotal.get()}\n')
+    texto_recibo.insert(END, f'Impuestos: \t\t\t{var_precio_impuestos.get()}\n')
+    texto_recibo.insert(END, f'Total: \t\t\t{var_precio_total.get()}\n')
+
+    texto_recibo.insert(END, f'*' * 57 + '\n')
+    texto_recibo.insert(END, f'Le esperamos pronto\n')
+
+def add_recibo(text_list, lista, precios):
+    x = 0
+    for elem in text_list:
+        if elem.get() != '0':
+            texto_recibo.insert(END, f'{lista[x]}\t\t{elem.get()}\t'
+                                     f'{int(elem.get()) * precios[x]} €\n')
+        x += 1
