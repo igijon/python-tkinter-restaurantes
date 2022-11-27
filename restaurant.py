@@ -1,6 +1,7 @@
 from tkinter import *
 import random
 import datetime
+from tkinter import filedialog, messagebox
 
 operador = ''
 precios_comida = [1.32, 1.65, 2.31, 3.22, 1.22, 1.99, 2.05, 2.65]
@@ -305,6 +306,8 @@ def click_botones(num, botones_creados, botones_etiquetas):
         botones_creados[num].config(command=lambda: total())
     elif botones_etiquetas[num] == 'recibo':
         botones_creados[num].config(command=lambda: recibo())
+    elif botones_etiquetas[num] == 'guardar':
+        botones_creados[num].config(command=lambda: guardar())
 
 
 def total_parcial(var, text, precios):
@@ -377,6 +380,7 @@ def recibo():
     texto_recibo.insert(END, f'*' * 57 + '\n')
     texto_recibo.insert(END, f'Le esperamos pronto\n')
 
+
 def add_recibo(text_list, lista, precios):
     x = 0
     for elem in text_list:
@@ -384,3 +388,11 @@ def add_recibo(text_list, lista, precios):
             texto_recibo.insert(END, f'{lista[x]}\t\t{elem.get()}\t'
                                      f'{int(elem.get()) * precios[x]} €\n')
         x += 1
+
+
+def guardar():
+    info_recibo = texto_recibo.get(1.0, END)
+    file = filedialog.asksaveasfile(mode='w', defaultextension='.txt')
+    file.write(info_recibo)
+    file.close()
+    messagebox.showinfo('Información', 'Recibo guardado')
