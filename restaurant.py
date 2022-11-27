@@ -4,6 +4,12 @@ import datetime
 from tkinter import filedialog, messagebox
 
 operador = ''
+var_comidas = []
+var_bebidas = []
+var_postres = []
+entrada_comidas = []
+entrada_bebidas = []
+entrada_postres = []
 precios_comida = [1.32, 1.65, 2.31, 3.22, 1.22, 1.99, 2.05, 2.65]
 precios_bebida = [0.25, 0.99, 1.21, 1.54, 1.08, 1.10, 2.00, 1.58]
 precios_postres = [1.54, 1.68, 1.32, 1.97, 2.55, 2.14, 1.94, 1.74]
@@ -26,6 +32,12 @@ def init():
     global lista_comidas
     global lista_bebidas
     global lista_postres
+    global entrada_comidas
+    global entrada_bebidas
+    global entrada_postres
+    global var_comidas
+    global var_bebidas
+    global var_postres
 
     # crear aplicación
     aplication = new_application()
@@ -39,9 +51,9 @@ def init():
     lista_bebidas = ['agua', 'fanta', 'coca cola', 'vino', 'cerveza', 'zumo', 'tónica', 'bitter']
     lista_postres = ['helado', 'brownie', 'fruta', 'flan', 'mousse', 'pastel', 'tarta zanahoria', 'tarta de chocolate']
 
-    gen_items(lista_comidas, panel_comidas, text_comidas)
-    gen_items(lista_bebidas, panel_bebidas, text_bebidas)
-    gen_items(lista_postres, panel_postres, text_postres)
+    gen_items(lista_comidas, panel_comidas, text_comidas, var_comidas, entrada_comidas)
+    gen_items(lista_bebidas, panel_bebidas, text_bebidas, var_bebidas, entrada_bebidas)
+    gen_items(lista_postres, panel_postres, text_postres, var_postres, entrada_postres)
 
     gen_precios(panel_coste, 'Total', 2, 2)
     gen_precios(panel_coste, 'Comida', 0, 0)
@@ -121,16 +133,11 @@ def new_panels(aplication: object) -> object:
     panel_botones = Frame(panel_derecha, bd=1, relief=FLAT, bg='burlywood')
     panel_botones.pack()
 
-
     return (panel_superior, panel_izquierdo, panel_coste, panel_comidas, panel_bebidas, panel_postres, panel_derecha, \
     panel_calculadora, panel_recibo, panel_botones)
 
 
-
-def gen_items(items_list, panel, text):
-    # Generar items comida
-    variable = []
-    entrada = []
+def gen_items(items_list, panel, text, variable, entrada):
 
     cont = 0
     for comida in items_list:
@@ -308,6 +315,8 @@ def click_botones(num, botones_creados, botones_etiquetas):
         botones_creados[num].config(command=lambda: recibo())
     elif botones_etiquetas[num] == 'guardar':
         botones_creados[num].config(command=lambda: guardar())
+    elif botones_etiquetas[num] == 'reset':
+        botones_creados[num].config(command=lambda: reset())
 
 
 def total_parcial(var, text, precios):
@@ -396,3 +405,36 @@ def guardar():
     file.write(info_recibo)
     file.close()
     messagebox.showinfo('Información', 'Recibo guardado')
+
+
+def reset():
+    global texto_recibo
+    global entrada_bebidas
+    global entrada_comidas
+    global entrada_postres
+
+    texto_recibo.delete(0.1, END)
+    reset_lista(text_comidas)
+    reset_lista(text_bebidas)
+    reset_lista(text_postres)
+    reset_checkbox(var_bebidas, entrada_bebidas)
+    reset_checkbox(var_comidas, entrada_comidas)
+    reset_checkbox(var_postres, entrada_postres)
+
+    var_precio_comida.set('')
+    var_precio_subtotal.set('')
+    var_precio_impuestos.set('')
+    var_precio_total.set('')
+    var_precio_postres.set('')
+    var_precio_bebidas.set('')
+
+def reset_lista(lista):
+    for elem in lista:
+        elem.set('0')
+
+
+def reset_checkbox(var, entrada):
+    for e in entrada:
+        e.config(state=DISABLED)
+    for e in var:
+        e.set(0)
